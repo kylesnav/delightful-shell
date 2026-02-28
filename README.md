@@ -1,16 +1,22 @@
-# Delightful Shell
+# Shell — Delightful Config
 
-Starship prompt, zsh config, and shell utilities from the Delightful Design System. Works with any terminal.
+Shared Starship prompt and zsh config using Delightful Design System colors. Works with any terminal (Ghostty, iTerm2, etc.).
+
+Part of the [Delightful Design System](https://github.com/kylesnav/delightful-design-system).
 
 ## Contents
 
 ```
 starship.toml       Starship prompt config using Delightful colors
 zshrc-snippet       Zsh additions (starship, aliases, hooks)
-smart-open          iTerm2 Semantic History handler (Cmd+click routing)
+smart-open          iTerm2 semantic history handler (Cmd+click files)
 ```
 
 ## Install
+
+The fastest way to set up shell config (along with your terminal theme) is the [setup script](https://github.com/kylesnav/delightful-design-system/blob/main/scripts/setup-terminal.sh) in the monorepo.
+
+Or install manually:
 
 ### Starship Prompt
 
@@ -75,21 +81,7 @@ Two-line prompt using Delightful accent colors:
 
 All aliases clear the command line before launching.
 
-### Terminal Compatibility
-
-| Component | Any Terminal | Ghostty | iTerm2 |
-|-----------|-------------|---------|--------|
-| Starship prompt | Yes | Yes | Yes |
-| Zsh defaults | Yes | Yes | Yes |
-| Claude aliases | Yes | Yes | Yes |
-| Quick terminal hook | — | 1.3+ | — |
-| smart-open | — | — | Yes |
-
 Tip: `touch ~/.hushlogin` to suppress the macOS "Last login" message.
-
-## Design System
-
-This is part of the [Delightful Design System](https://github.com/kylesnav/delightful-design-system). Terminal color themes are available separately for [Ghostty](https://github.com/kylesnav/delightful-ghostty) and iTerm2.
 
 ## References
 
@@ -98,6 +90,8 @@ This is part of the [Delightful Design System](https://github.com/kylesnav/delig
 | Starship | [starship/starship](https://github.com/starship/starship) | [starship.rs](https://starship.rs) |
 | Zsh | [zsh-users/zsh](https://github.com/zsh-users/zsh) | [zsh.sourceforge.io](https://zsh.sourceforge.io/Doc/) |
 
-## License
+## Related
 
-MIT
+- [delightful-ghostty](https://github.com/kylesnav/delightful-ghostty) — Ghostty terminal theme
+- [obsidian-delightful](https://github.com/kylesnav/obsidian-delightful) — Obsidian theme
+- [delightful-design-system](https://github.com/kylesnav/delightful-design-system) — Full design system monorepo
