@@ -1,22 +1,30 @@
-# Shell — Delightful Config
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="screenshots/iTerm2-Dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="screenshots/iTerm2-Light.png" />
+    <img src="screenshots/iTerm2-Light.png" width="600" alt="iTerm2 terminal — Delightful" />
+  </picture>
+</p>
 
-Shared Starship prompt and zsh config using Delightful Design System colors. Works with any terminal (Ghostty, iTerm2, etc.).
+<h1 align="center">Delightful for Shell</h1>
 
-Part of the [Delightful Design System](https://github.com/kylesnav/delightful-design-system).
+<p align="center">
+  Starship prompt, zsh config, and terminal utilities using <a href="https://github.com/kylesnav/delightful-design-system">Delightful Design System</a> colors.
+  <br>
+  Works with any terminal.
+</p>
 
-## Contents
-
-```
-starship.toml       Starship prompt config using Delightful colors
-zshrc-snippet       Zsh additions (starship, aliases, hooks)
-smart-open          iTerm2 semantic history handler (Cmd+click files)
-```
+---
 
 ## Install
 
-The fastest way to set up shell config (along with your terminal theme) is the [setup script](https://github.com/kylesnav/delightful-design-system/blob/main/scripts/setup-terminal.sh) in the monorepo.
+The [setup script](https://github.com/kylesnav/delightful-design-system/blob/main/scripts/setup-terminal.sh) installs everything at once (Starship prompt, zsh config, terminal theme):
 
-Or install manually:
+```bash
+bash setup-terminal.sh
+```
+
+Or install each piece manually:
 
 ### Starship Prompt
 
@@ -25,29 +33,30 @@ brew install starship
 cp starship.toml ~/.config/starship.toml
 ```
 
-Add `eval "$(starship init zsh)"` to your `~/.zshrc`, or use the full `zshrc-snippet`.
+Add `eval "$(starship init zsh)"` to your `~/.zshrc`, or use the full zshrc-snippet below.
 
-### Zsh Snippet
+### Zsh Config
 
-Copy the snippet into your `~/.zshrc`, or source it:
+Source the snippet in your `~/.zshrc`:
 
 ```bash
 source /path/to/zshrc-snippet
 ```
 
-### smart-open (iTerm2)
+### smart-open (iTerm2 only)
 
-Routes Cmd+click file paths to the right app: directories to Finder, HTML to Chrome, code files to VS Code (with line number support), images and PDFs to Preview.
+Routes Cmd+click file paths to the right app — code files to VS Code (with line number support), HTML to Chrome, images to Preview.
 
 ```bash
+mkdir -p ~/.local/bin
 cp smart-open ~/.local/bin/smart-open
 chmod +x ~/.local/bin/smart-open
 ```
 
-Then in iTerm2: Settings → Profiles → Advanced → Semantic History → "Run command...":
+In iTerm2: **Settings > Profiles > Advanced > Semantic History > Run command...**
 
 ```
-/Users/YOU/.local/bin/smart-open \1 \2 \5
+"/Users/YOU/.local/bin/smart-open" "\1" "\2" "\5"
 ```
 
 ## What's Included
@@ -58,40 +67,82 @@ Two-line prompt using Delightful accent colors:
 
 | Element | Color | Details |
 |---------|-------|---------|
-| `>` prompt character | Pink (`#f600a3`) | Red on error, cyan in vim mode |
-| Directory | Bold foreground | Truncated to 3 levels |
+| `>` prompt character | Pink | Red on error, cyan in vim mode |
+| Directory | Bold | Truncated to 3 levels |
 | Git branch | Pink | |
-| Git status | Gold | Modified, staged, untracked indicators |
-| Node / Python / Rust | Green / Gold / Red | Shown when in a project directory |
-| Command duration | Muted | Shown for commands over 2 seconds |
+| Git status | Gold | Modified, staged, untracked |
+| Language versions | Green / Gold / Red | Node, Python, Rust |
+| Command duration | Muted | Commands over 2 seconds |
 | Clock | Muted | Right-aligned, HH:MM |
 
-### Zsh Snippet
+### Zsh Config
 
 | Feature | Details |
 |---------|---------|
-| Quick terminal hook | Auto-launches Claude Code on `Option+Space` (Ghostty 1.3+) |
-| `AUTO_CD` | Type a directory name to cd into it |
-| `CORRECT` | Spell correction for mistyped commands |
+| Quick terminal | Auto-launches Claude Code on `Option+Space` (Ghostty 1.3+) |
 | History | 50k entries, shared across sessions, no duplicates |
 | Tab completion | Case-insensitive, menu-selectable |
-| `c` | Alias for `claude` |
-| `cc` | Alias for `claude --dangerously-skip-permissions` |
-| `cr` | Alias for `claude --resume` |
+| `AUTO_CD` | Type a directory name to cd into it |
+| `CORRECT` | Spell correction for mistyped commands |
 
-All aliases clear the command line before launching.
+<details>
+<summary><strong>AI CLI aliases</strong></summary>
+
+<br>
+
+All aliases clear the visible screen (preserving scrollback) before launching.
+
+| Alias | Command |
+|-------|---------|
+| `c` | `claude` |
+| `cc` | `claude --dangerously-skip-permissions` |
+| `cr` | `claude --resume` |
+| `ccr` | `claude --dangerously-skip-permissions --resume` |
+| `x` | `codex` |
+| `xx` | `codex --full-auto` |
+| `xr` | `codex resume` |
+| `xxr` | `codex --full-auto resume` |
+| `g` | `gemini` |
+| `gg` | `gemini --yolo` |
+| `gr` | `gemini --resume latest` |
+| `ggr` | `gemini --yolo --resume latest` |
 
 Tip: `touch ~/.hushlogin` to suppress the macOS "Last login" message.
 
-## References
+</details>
 
-| Tool | Repo | Docs |
-|------|------|------|
-| Starship | [starship/starship](https://github.com/starship/starship) | [starship.rs](https://starship.rs) |
-| Zsh | [zsh-users/zsh](https://github.com/zsh-users/zsh) | [zsh.sourceforge.io](https://zsh.sourceforge.io/Doc/) |
+### smart-open
+
+iTerm2 Semantic History handler for Cmd+click file paths:
+
+| File Type | Opens In |
+|-----------|----------|
+| Code files (40+ extensions) | VS Code (with `--goto` line numbers) |
+| Extensionless code files | VS Code (Dockerfile, Makefile, etc.) |
+| `.html` / `.htm` | Chrome |
+| Images, PDFs | Preview |
+| Directories | Finder |
+| Everything else | Default app |
+
+## Terminal Compatibility
+
+| Feature | Ghostty | iTerm2 | Other |
+|---------|---------|--------|-------|
+| Starship prompt | Yes | Yes | Any terminal |
+| Zsh config | Yes | Yes | Any zsh shell |
+| Quick terminal | Yes (1.3+) | No | No |
+| AI CLI aliases | Yes | Yes | Any terminal |
+| smart-open | No | Yes | No |
+
+## With Claude Code
+
+After applying the terminal theme and Starship prompt, run `/config` in Claude Code and set the theme to **light-ansi** or **dark-ansi** (matching your terminal theme). Claude Code inherits the Delightful palette from your terminal.
 
 ## Related
 
 - [delightful-ghostty](https://github.com/kylesnav/delightful-ghostty) — Ghostty terminal theme
-- [obsidian-delightful](https://github.com/kylesnav/obsidian-delightful) — Obsidian theme
-- [delightful-design-system](https://github.com/kylesnav/delightful-design-system) — Full design system monorepo
+- [iterm2/](https://github.com/kylesnav/delightful-design-system/tree/main/iterm2) — iTerm2 color profiles
+
+## License
+
+[MIT](LICENSE)
