@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="screenshots/iTerm2-Dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset="screenshots/iTerm2-Light.png" />
-    <img src="screenshots/iTerm2-Light.png" width="600" alt="iTerm2 terminal — Delightful" />
+    <source media="(prefers-color-scheme: dark)" srcset="screenshots/Starship-Dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="screenshots/Starship-Light.png" />
+    <img src="screenshots/Starship-Light.png" width="600" alt="Starship prompt — Delightful" />
   </picture>
 </p>
 
