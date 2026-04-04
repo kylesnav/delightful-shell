@@ -33,6 +33,8 @@ zstyle ':completion:*' list-colors ''
 # Claude Code
 alias c='clear -x && claude'
 alias cc='clear -x && claude --dangerously-skip-permissions'
+alias ccdm='clear -x && claude --dangerously-skip-permissions --channels plugin:imessage@claude-plugins-official --name dm'
+alias ccrc='clear -x && claude --dangerously-skip-permissions --remote-control'
 alias cr='clear -x && claude --resume'
 alias ccr='clear -x && claude --dangerously-skip-permissions --resume'
 
@@ -47,4 +49,3 @@ alias g='clear -x && gemini'
 alias gg='clear -x && gemini --yolo'
 alias gr='clear -x && gemini --resume latest'
 alias ggr='clear -x && gemini --yolo --resume latest'
-
