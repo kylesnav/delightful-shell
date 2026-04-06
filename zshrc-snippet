@@ -4,7 +4,7 @@
 
 # --- Starship Prompt ---
 # Install: brew install starship (macOS) or see https://starship.rs
-# Config: copy starship.toml to ~/.config/starship.toml
+# Theme: see https://github.com/kylesnav/delightful-starship
 eval "$(starship init zsh)"
 
 # --- Ghostty Quick Terminal → Claude Code ---

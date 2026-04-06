@@ -1,151 +1,53 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="screenshots/Starship-Dark.png" />
+    <source media="(prefers-color-scheme: light)" srcset="screenshots/Starship-Light.png" />
+    <img src="screenshots/Starship-Dark.png" width="600" alt="tmux status bar — Delightful" />
+  </picture>
+</p>
+
 <h1 align="center">Delightful for Shell</h1>
 
 <p align="center">
-  Tmux, zsh config, and terminal utilities using <a href="https://github.com/kylesnav/delightful-design-system">Delightful Design System</a> colors.
-  <br>
-  Designed for Ghostty. iTerm2 supported as a standalone alternative.
+  Terminal workspace configuration with Delightful colors -- tmux, zsh, and utilities.
 </p>
 
 ---
 
-## The Delightful Terminal Stack
-
-This package is the session and config layer of a cohesive terminal experience:
-
-| Package | Role |
-|---------|------|
-| [`ghostty/`](../ghostty/) | Terminal emulator — colors, fonts, keybinds |
-| [`starship/`](../starship/) | Prompt — rainbow powerline segments |
-| **`shell/`** (this package) | Session — tmux status bar, persistence, zsh config |
-| [`claude-status-line/`](../claude-status-line/) | Claude Code status line *(coming soon)* |
-| [`iterm2/`](../iterm2/) | iTerm2 color profiles (standalone alternative) |
-
-## Prerequisites
-
-**Nerd Font** — the tmux status bar and Starship prompt use powerline glyphs.
-
-```sh
-brew install --cask font-jetbrains-mono-nerd-font
-```
-
-**Suppress "Last login"** — stop macOS from printing `Last login: ...` on every new terminal:
-
-```sh
-touch ~/.hushlogin
-```
-
-## Install
-
-The setup script installs everything at once:
-
-```bash
-bash ../scripts/setup-terminal.sh
-```
-
-Or install each piece manually:
-
-### tmux
-
-Copy the config:
-
-```bash
-cp tmux.conf ~/.tmux.conf
-```
-
-Install [TPM](https://github.com/tmux-plugins/tpm) (Tmux Plugin Manager):
-
-```bash
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-```
-
-Then press `prefix + I` (Ctrl+b, then Shift+i) inside tmux to install plugins.
-
-> **iTerm2 users:** iTerm2 has native tmux integration (`tmux -CC`).
-> You may prefer that over this config — see the [iTerm2 README](../iterm2/README.md).
-
-#### Ghostty auto-attach (optional)
-
-> **Note:** The Ghostty config works great without tmux. This is an opt-in
-> addition for users who want persistent sessions across terminal restarts.
-
-Each Ghostty window gets its own persistent tmux session (`1`, `2`, `3`, etc.).
-Close a window → reopen → it reattaches to a detached session. For agent team
-views, use tmux splits to watch multiple sessions.
-
-```bash
-mkdir -p ~/.local/bin
-cp tmux-auto-attach.sh ~/.local/bin/tmux-auto-attach
-chmod +x ~/.local/bin/tmux-auto-attach
-```
-
-In your Ghostty config:
-
-```
-command = /Users/YOU/.local/bin/tmux-auto-attach
-```
-
-Pass a name to pin a window to a specific session: `command = /path/to/tmux-auto-attach work`.
-
-### Zsh Config
-
-Source the snippet in your `~/.zshrc`:
-
-```bash
-source /path/to/zshrc-snippet
-```
-
-### smart-open (iTerm2 only)
-
-Routes Cmd+click file paths to the right app — code files to VS Code (with line number support), HTML to Chrome, images to Preview.
-
-```bash
-mkdir -p ~/.local/bin
-cp smart-open ~/.local/bin/smart-open
-chmod +x ~/.local/bin/smart-open
-```
-
-In iTerm2: **Settings > Profiles > Advanced > Semantic History > Run command...**
-
-```
-"/Users/YOU/.local/bin/smart-open" "\1" "\2" "\5"
-```
-
 ## What's Included
 
-### tmux
+### tmux.conf
+
+Full tmux configuration with a Delightful-colored status bar.
 
 | Feature | Details |
 |---------|---------|
-| Rainbow status bar | Powerline segments at the top of the terminal, matching the Delightful Starship aesthetic |
-| Equalized splits | `prefix+\|` and `prefix+-` create panes that auto-equalize. `prefix+x` closes a pane. |
-| Dynamic window names | Windows auto-rename: directory name when idle, Claude session name when Claude Code is running, command name otherwise |
-| Dynamic tab titles | Ghostty tab bar shows session and context (e.g. `1 — myapp`, `1 — claude`) |
+| Rainbow status bar | Color-block segments at the top -- pink session, gold active window, gray inactive, cyan hostname |
+| Equalized splits | `prefix+\|` and `prefix+-` create panes that auto-equalize |
+| Dynamic window names | Directory name when idle, process name otherwise (e.g. `claude` when Claude Code is running) |
+| Dynamic tab titles | Ghostty tab bar shows session context (e.g. `1 -- myapp`) |
 | Session restore | tmux-resurrect saves/restores sessions (`prefix+Ctrl+s` / `prefix+Ctrl+r`) |
-| Vim-style navigation | `prefix+h/j/k/l` pane navigation, `prefix+\|` and `prefix+-` for splits |
-| Mouse mode | Click panes to focus, drag dividers to resize, scroll — all enabled |
-| Vi copy mode | `v` to select, `y` to yank to system clipboard |
+| Vim-style navigation | `prefix+h/j/k/l` pane navigation, vi copy mode |
+| Mouse mode | Click panes to focus, drag dividers to resize, scroll |
 | Sensible defaults | 256color, no escape delay, windows start at 1, 50k scrollback |
 
-Status bar layout (top of terminal):
+Status bar layout:
 
 ```
-┌──────────────────────────────────────────────────────────────────────┐
-│  main  myapp  ⠂ session  vim        hostname   Mar 26   14:30 │
-│ (pink)  (gold)    (gray)   (gray)        (cyan)    (gray)   (dark) │
-└──────────────────────────────────────────────────────────────────────┘
+ session   active   inactive   inactive          hostname   Mar 26   14:30
+ (pink)    (gold)     (gray)     (gray)            (cyan)   (gray)   (dark)
 ```
 
-Windows auto-rename to the current context: directory name when idle in a shell, `claude` when Claude Code is running, or the command name for everything else.
+### zshrc-snippet
 
-### Zsh Config
+Shell additions to source from your `~/.zshrc`. Each section is independent.
 
 | Feature | Details |
 |---------|---------|
+| Starship prompt | Initializes the [Starship](https://starship.rs) prompt |
 | Quick terminal | Auto-launches Claude Code on `Option+Space` (Ghostty 1.3+) |
-| History | 50k entries, shared across sessions, no duplicates |
-| Tab completion | Case-insensitive, menu-selectable |
-| `AUTO_CD` | Type a directory name to cd into it |
-| `CORRECT` | Spell correction for mistyped commands |
+| Zsh defaults | `AUTO_CD`, `CORRECT`, 50k shared history, case-insensitive completion |
+| AI CLI aliases | Short aliases for Claude Code, Codex, and Gemini CLI tools |
 
 <details>
 <summary><strong>AI CLI aliases</strong></summary>
@@ -158,6 +60,8 @@ All aliases clear the visible screen (preserving scrollback) before launching.
 |-------|---------|
 | `c` | `claude` |
 | `cc` | `claude --dangerously-skip-permissions` |
+| `ccdm` | `claude --dangerously-skip-permissions --channels plugin:imessage@claude-plugins-official --name dm` |
+| `ccrc` | `claude --dangerously-skip-permissions --remote-control` |
 | `cr` | `claude --resume` |
 | `ccr` | `claude --dangerously-skip-permissions --resume` |
 | `x` | `codex` |
@@ -171,9 +75,15 @@ All aliases clear the visible screen (preserving scrollback) before launching.
 
 </details>
 
+### tmux-auto-attach.sh
+
+Ghostty command hook that gives each terminal window its own persistent tmux session. Sessions survive window closes -- reopen Ghostty and it reattaches to the first detached session. Sessions are numbered sequentially (`1`, `2`, `3`, ...) or you can pass a name to pin a window to a specific session.
+
+Use this if you want session persistence across terminal restarts. The rest of the config works fine without it.
+
 ### smart-open
 
-iTerm2 Semantic History handler for Cmd+click file paths:
+iTerm2 Semantic History handler for Cmd+click file paths. Routes clicks to the right application:
 
 | File Type | Opens In |
 |-----------|----------|
@@ -184,11 +94,85 @@ iTerm2 Semantic History handler for Cmd+click file paths:
 | Directories | Finder |
 | Everything else | Default app |
 
+## Prerequisites
+
+**Nerd Font** -- recommended if you also use [delightful-starship](https://github.com/kylesnav/delightful-starship), which renders powerline glyphs. The tmux status bar itself uses plain color blocks and works with any font.
+
+```sh
+brew install --cask font-jetbrains-mono-nerd-font
+```
+
+**Suppress "Last login"** -- stop macOS from printing `Last login: ...` on every new terminal:
+
+```sh
+touch ~/.hushlogin
+```
+
+## Install
+
+Pick what you need -- each file is independent.
+
+### tmux
+
+```bash
+git clone https://github.com/kylesnav/delightful-shell.git
+cp delightful-shell/tmux.conf ~/.tmux.conf
+```
+
+Install [TPM](https://github.com/tmux-plugins/tpm) (Tmux Plugin Manager), then press `prefix + I` inside tmux:
+
+```bash
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+```
+
+### Zsh
+
+Source the snippet in your `~/.zshrc`:
+
+```bash
+# Option A: source directly from the cloned repo
+source /path/to/delightful-shell/zshrc-snippet
+
+# Option B: copy to your dotfiles
+cp delightful-shell/zshrc-snippet ~/.config/zsh/delightful.zsh
+source ~/.config/zsh/delightful.zsh
+```
+
+### tmux-auto-attach (optional)
+
+```bash
+mkdir -p ~/.local/bin
+cp delightful-shell/tmux-auto-attach.sh ~/.local/bin/tmux-auto-attach
+chmod +x ~/.local/bin/tmux-auto-attach
+```
+
+In your Ghostty config:
+
+```
+command = /Users/YOU/.local/bin/tmux-auto-attach
+```
+
+Pass a name to pin a window to a specific session: `command = /path/to/tmux-auto-attach work`.
+
+### smart-open (iTerm2 only)
+
+```bash
+mkdir -p ~/.local/bin
+cp delightful-shell/smart-open ~/.local/bin/smart-open
+chmod +x ~/.local/bin/smart-open
+```
+
+In iTerm2: **Settings > Profiles > Advanced > Semantic History > Run command...**
+
+```
+"/Users/YOU/.local/bin/smart-open" "\1" "\2" "\5"
+```
+
 ## Terminal Compatibility
 
 | Feature | Ghostty | iTerm2 | Other |
 |---------|---------|--------|-------|
-| tmux config | Yes | Optional* | Any tmux-capable terminal |
+| tmux config | Yes | Optional\* | Any tmux-capable terminal |
 | tmux auto-attach | Yes | No | No |
 | Zsh config | Yes | Yes | Any zsh shell |
 | Quick terminal | Yes (1.3+) | No | No |
@@ -197,9 +181,15 @@ iTerm2 Semantic History handler for Cmd+click file paths:
 
 \* iTerm2 users may prefer native tmux integration (`tmux -CC`).
 
-## With Claude Code
+## Part of Delightful
 
-After applying the terminal theme, run `/config` in Claude Code and set the theme to **light-ansi** or **dark-ansi** (matching your terminal theme). Claude Code inherits the Delightful palette from your terminal.
+This config is part of the [Delightful Design System](https://github.com/kylesnav/delightful-design-system) -- a warm, neo-brutalist design system built on OKLCH color science.
+
+Other terminal ports:
+
+- [delightful-ghostty](https://github.com/kylesnav/delightful-ghostty) -- Ghostty terminal themes
+- [delightful-starship](https://github.com/kylesnav/delightful-starship) -- Starship prompt theme
+- [delightful-iterm2](https://github.com/kylesnav/delightful-iterm2) -- iTerm2 color profiles
 
 ## License
 
