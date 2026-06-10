@@ -1,9 +1,4 @@
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="screenshots/Starship-Dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset="screenshots/Starship-Light.png" />
-    <img src="screenshots/Starship-Dark.png" width="600" alt="Delightful terminal — Starship prompt" />
-  </picture>
 </p>
 
 <h1 align="center">Delightful for Shell</h1>
