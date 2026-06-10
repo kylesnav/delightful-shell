@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="screenshots/Starship-Dark.png" width="760" alt="Delightful shell workspace with Starship and Claude Code" />
+  <img src="screenshots/Starship-Dark.png" width="760" alt="Delightful shell workspace with the Starship status line" />
 </p>
 
 <h1 align="center">Delightful for Shell</h1>
